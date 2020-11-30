@@ -1,1 +1,88 @@
-# -1
+
+from urllib.request import urlopen
+from urllib.error import URLError, HTTPError
+from bs4 import BeautifulSoup
+import bs4
+import urllib.request
+import re
+from urllib.request import Request, urlopen
+import pandas as pd
+
+urls=[]
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=100&date=20201005", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=100&date=20201006", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=100&date=20201007", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=100&date=20201008", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=100&date=20201009", headers={'User-Agent': 'Mozilla/5.0'}))
+
+일주일간 많이 본 뉴스 정치
+
+titlesp=[]
+for url in urls:
+  html=urlopen(url)
+  bs_obj=bs4.BeautifulSoup(html.read(),"html.parser")
+  ol=bs_obj.find("ol",{"class":"ranking_list"})
+  divs=ol.findAll("div",{"class":"ranking_headline"})
+  
+  for i in range (0,5):
+    titlesp.append(divs[i].text.replace("\n",""))
+
+urls=[]
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=101&date=20201005", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=101&date=20201006", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=101&date=20201007", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=101&date=20201008", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=101&date=20201009", headers={'User-Agent': 'Mozilla/5.0'}))
+
+titlese=[]
+for url in urls:
+  html=urlopen(url)
+  bs_obj=bs4.BeautifulSoup(html.read(),"html.parser")
+  ol=bs_obj.find("ol",{"class":"ranking_list"})
+  divs=ol.findAll("div",{"class":"ranking_headline"})
+  
+  for i in range (0,5):
+    titlese.append(divs[i].text.replace("\n",""))
+
+urls=[]
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=103&date=20201005", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=103&date=20201006", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=103&date=20201007", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=103&date=20201008", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=103&date=20201009", headers={'User-Agent': 'Mozilla/5.0'}))
+
+titless=[]
+for url in urls:
+  html=urlopen(url)
+  bs_obj=bs4.BeautifulSoup(html.read(),"html.parser")
+  ol=bs_obj.find("ol",{"class":"ranking_list"})
+  divs=ol.findAll("div",{"class":"ranking_headline"})
+  
+  for i in range (0,5):
+    titless.append(divs[i].text.replace("\n",""))
+
+urls=[]
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=104&date=20201005", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=104&date=20201006", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=104&date=20201007", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=104&date=20201008", headers={'User-Agent': 'Mozilla/5.0'}))
+urls.append(Request("https://news.naver.com/main/ranking/popularMemo.nhn?rankingType=popular_memo&sectionId=104&date=20201009", headers={'User-Agent': 'Mozilla/5.0'}))
+
+titlesc=[]
+
+for url in urls:
+  html=urlopen(url)
+  bs_obj=bs4.BeautifulSoup(html.read(),"html.parser")
+  ol=bs_obj.find("ol",{"class":"ranking_list"})
+  divs=ol.findAll("div",{"class":"ranking_headline"})
+  
+  for i in range (0,5):
+    titlesc.append(divs[i].text.replace("\n",""))
+
+data={'댓글 많은 정치 뉴스': titlesp,
+      '댓글 많은 경제 뉴스': titlese,
+      '댓글 많은 사회 뉴스': titless,
+      '댓글 많은 문화 뉴스': titlesc
+      }
+df = pd.DataFrame(data)
+df.to_csv("네이버댓글 많은 뉴스11월1.csv",encoding="cp949")
