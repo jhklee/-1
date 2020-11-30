@@ -1,0 +1,76 @@
+from urllib.request import urlopen
+from urllib.error import URLError, HTTPError
+from bs4 import BeautifulSoup
+import bs4
+import urllib.request
+import re
+from urllib.request import Request, urlopen
+import pandas as pd
+
+req = Request("https://news.naver.com/main/ranking/popularLike.nhn?subType=10", headers={'User-Agent': 'Mozilla/5.0'})
+html = urlopen(req)
+bs_obj=bs4.BeautifulSoup(html.read(),"html.parser")
+div=bs_obj.find("div",{"class":"likeitnews"})
+As=div.findAll("a",{"likeitnews_item_title nclicks(sym.ten)"})
+titles10=[]
+for i in range (0,10):
+  titles10.append(As[i].text)
+
+req = Request("https://news.naver.com/main/ranking/popularLike.nhn?subType=20", headers={'User-Agent': 'Mozilla/5.0'})
+html = urlopen(req)
+bs_obj=bs4.BeautifulSoup(html.read(),"html.parser")
+div=bs_obj.find("div",{"class":"likeitnews"})
+As=div.findAll("a",{"likeitnews_item_title nclicks(sym.twn)"})
+titles20=[]
+for i in range (0,10):
+  titles20.append(As[i].text)
+
+from urllib.request import Request, urlopen
+req = Request("https://news.naver.com/main/ranking/popularLike.nhn?subType=30", headers={'User-Agent': 'Mozilla/5.0'})
+html = urlopen(req)
+bs_obj=bs4.BeautifulSoup(html.read(),"html.parser")
+div=bs_obj.find("div",{"class":"likeitnews"})
+As=div.findAll("a",{"likeitnews_item_title nclicks(sym.trt)"})
+titles30=[]
+for i in range (0,10):
+  titles30.append(As[i].text)
+
+from urllib.request import Request, urlopen
+req = Request("https://news.naver.com/main/ranking/popularLike.nhn?subType=40", headers={'User-Agent': 'Mozilla/5.0'})
+html = urlopen(req)
+bs_obj=bs4.BeautifulSoup(html.read(),"html.parser")
+div=bs_obj.find("div",{"class":"likeitnews"})
+As=div.findAll("a",{"likeitnews_item_title nclicks(sym.fot)"})
+titles40=[]
+for i in range (0,10):
+  titles40.append(As[i].text)
+
+from urllib.request import Request, urlopen
+req = Request("https://news.naver.com/main/ranking/popularLike.nhn?subType=50", headers={'User-Agent': 'Mozilla/5.0'})
+html = urlopen(req)
+bs_obj=bs4.BeautifulSoup(html.read(),"html.parser")
+div=bs_obj.find("div",{"class":"likeitnews"})
+As=div.findAll("a",{"likeitnews_item_title nclicks(sym.fif)"})
+titles50=[]
+for i in range (0,10):
+  titles50.append(As[i].text)
+
+from urllib.request import Request, urlopen
+req = Request("https://news.naver.com/main/ranking/popularLike.nhn?subType=60", headers={'User-Agent': 'Mozilla/5.0'})
+html = urlopen(req)
+bs_obj=bs4.BeautifulSoup(html.read(),"html.parser")
+div=bs_obj.find("div",{"class":"likeitnews"})
+As=div.findAll("a",{"likeitnews_item_title nclicks(sym.six)"})
+titles60=[]
+for i in range (0,10):
+  titles60.append(As[i].text)
+
+data={'10대 공감 많은 뉴스': titles10,
+      '20대 공감 많은 뉴스': titles20,
+      '30대 공감 많은 뉴스': titles30,
+      '40대 공감 많은 뉴스': titles40,
+      '50대 공감 많은 뉴스': titles50,
+      '60대 공감 많은 뉴스': titles60
+            }
+df = pd.DataFrame(data)
+df.to_csv("네이버 연령별 공감10월2주.csv",encoding="cp949")
