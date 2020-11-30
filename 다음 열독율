@@ -1,0 +1,64 @@
+from urllib.request import urlopen
+import bs4
+import pandas as pd 
+
+
+#일주일간 많이 본 뉴스
+urls=["https://news.daum.net/ranking/popular/news?regDate=20201005",
+      "https://news.daum.net/ranking/popular/news?regDate=20201006",
+      "https://news.daum.net/ranking/popular/news?regDate=20201007",
+      "https://news.daum.net/ranking/popular/news?regDate=20201008",
+      "https://news.daum.net/ranking/popular/news?regDate=20201009" ]
+titlesm=[]
+for url in urls:
+  html= urlopen(url)
+  bs_obj=bs4.BeautifulSoup(html.read(),"html.parser")
+  ul=bs_obj.find("ul",{"class":"list_news2"})
+  As= ul.findAll("a",{"class":"link_txt"})
+  for i in range (0,5):
+    titlesm.append(As[i].text)
+
+
+#일주일간 열독률 높은 기사 
+urls=["https://news.daum.net/ranking/kkomkkom?regDate=20201005",
+      "https://news.daum.net/ranking/kkomkkom?regDate=20201006",
+      "https://news.daum.net/ranking/kkomkkom?regDate=20201007",
+      "https://news.daum.net/ranking/kkomkkom?regDate=20201008",
+      "https://news.daum.net/ranking/kkomkkom?regDate=20201009" ]
+titlesk=[]
+for url in urls:
+  html= urlopen(url)
+  bs_obj=bs4.BeautifulSoup(html.read(),"html.parser")
+  ul=bs_obj.find("ul",{"class":"list_news2"})
+  As= ul.findAll("a",{"class":"link_txt"})
+  for i in range (0,5):
+    titlesk.append(As[i].text)
+
+#일주일간 댓글 많은 기사 
+urls=["https://news.daum.net/ranking/bestreply?regDate=20201005",
+      "https://news.daum.net/ranking/bestreply?regDate=20201006",
+      "https://news.daum.net/ranking/bestreply?regDate=20201007",
+      "https://news.daum.net/ranking/bestreply?regDate=20201008",
+      "https://news.daum.net/ranking/bestreply?regDate=20201009" ]
+titlesr=[]
+for url in urls:
+  html= urlopen(url)
+  bs_obj=bs4.BeautifulSoup(html.read(),"html.parser")
+  ul=bs_obj.find("ul",{"class":"list_news2"})
+  As= ul.findAll("a",{"class":"link_txt"})
+  for i in range (0,5):
+    titlesr.append(As[i].text)
+
+
+
+data={'많이 본 뉴스': titlesm,
+      '열독률 높은 뉴스': titlesk,
+      '댓글 많은 뉴스': titlesr
+            }
+df = pd.DataFrame(data)
+df.to_csv("다음 뉴스10월2주차_cp949.csv",encoding="cp949")
+
+
+
+
+
